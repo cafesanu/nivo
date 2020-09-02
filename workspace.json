@@ -1,0 +1,132 @@
+{
+  "version": 1,
+  "projects": {
+    "victory": {
+      "root": "apps/victory",
+      "sourceRoot": "apps/victory/src",
+      "projectType": "application",
+      "schematics": {},
+      "architect": {
+        "build": {
+          "builder": "@nrwl/web:build",
+          "options": {
+            "outputPath": "dist/apps/victory",
+            "index": "apps/victory/src/index.html",
+            "main": "apps/victory/src/main.tsx",
+            "polyfills": "apps/victory/src/polyfills.ts",
+            "tsConfig": "apps/victory/tsconfig.app.json",
+            "assets": [
+              "apps/victory/src/favicon.ico",
+              "apps/victory/src/assets"
+            ],
+            "styles": [],
+            "scripts": [],
+            "webpackConfig": "@nrwl/react/plugins/webpack"
+          },
+          "configurations": {
+            "production": {
+              "fileReplacements": [
+                {
+                  "replace": "apps/victory/src/environments/environment.ts",
+                  "with": "apps/victory/src/environments/environment.prod.ts"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "2mb",
+                  "maximumError": "5mb"
+                }
+              ]
+            }
+          }
+        },
+        "serve": {
+          "builder": "@nrwl/web:dev-server",
+          "options": {
+            "buildTarget": "victory:build"
+          },
+          "configurations": {
+            "production": {
+              "buildTarget": "victory:build:production"
+            }
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:lint",
+          "options": {
+            "linter": "eslint",
+            "tsConfig": [
+              "apps/victory/tsconfig.app.json",
+              "apps/victory/tsconfig.spec.json"
+            ],
+            "exclude": ["**/node_modules/**", "!apps/victory/**/*"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "apps/victory/jest.config.js",
+            "tsConfig": "apps/victory/tsconfig.spec.json",
+            "passWithNoTests": true
+          }
+        }
+      }
+    },
+    "victory-e2e": {
+      "root": "apps/victory-e2e",
+      "sourceRoot": "apps/victory-e2e/src",
+      "projectType": "application",
+      "architect": {
+        "e2e": {
+          "builder": "@nrwl/cypress:cypress",
+          "options": {
+            "cypressConfig": "apps/victory-e2e/cypress.json",
+            "tsConfig": "apps/victory-e2e/tsconfig.e2e.json",
+            "devServerTarget": "victory:serve"
+          },
+          "configurations": {
+            "production": {
+              "devServerTarget": "victory:serve:production"
+            }
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:lint",
+          "options": {
+            "linter": "eslint",
+            "tsConfig": ["apps/victory-e2e/tsconfig.e2e.json"],
+            "exclude": ["**/node_modules/**", "!apps/victory-e2e/**/*"]
+          }
+        }
+      }
+    }
+  },
+  "cli": {
+    "defaultCollection": "@nrwl/react"
+  },
+  "schematics": {
+    "@nrwl/react": {
+      "application": {
+        "style": "@emotion/styled",
+        "linter": "eslint",
+        "babel": true
+      },
+      "component": {
+        "style": "@emotion/styled"
+      },
+      "library": {
+        "style": "@emotion/styled",
+        "linter": "eslint"
+      }
+    }
+  },
+  "defaultProject": "victory"
+}
